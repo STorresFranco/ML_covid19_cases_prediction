@@ -130,10 +130,10 @@ def train_model(h_covid_data):
     #Split X and y variables
     X_train=train_data.drop("Cases_Agg",axis="columns")
     y_train=train_data.Cases_Agg
+    y_train_log=np.log1p(y_train)
 
     X_test=test_data.drop("Cases_Agg",axis="columns")
     y_test=test_data.Cases_Agg
-    y_test_log=np.log1p(y_test)
 
     #Scale input
     scaler=MinMaxScaler()
@@ -143,7 +143,7 @@ def train_model(h_covid_data):
 
     #Fit the model
     xgb_model=XGBRegressor()
-    xgb_model.fit(X_train_scaled,y_test_log)
+    xgb_model.fit(X_train_scaled,y_train_log)
 
     # ****************************** Evaluation
     #Train evaluation
