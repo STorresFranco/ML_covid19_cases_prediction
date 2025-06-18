@@ -9,6 +9,7 @@ import scipy
 from sklearn.metrics import root_mean_squared_error,r2_score
 from sklearn.preprocessing import MinMaxScaler
 import joblib
+import subprocess
 
 def data_cases_update(h_covid_data):
     '''
@@ -205,3 +206,10 @@ if __name__=="__main__":
     print(f"✅ Retraining complete")
     print(f"Train RMSE: {train_rmse:.2f} | R²: {r2_train:.3f}")
     print(f"Test  RMSE: {test_rmse:.2f} | R²: {r2_test:.3f}")
+
+
+subprocess.run(["git", "config", "--global", "user.name", "github-actions"])
+subprocess.run(["git", "config", "--global", "user.email", "github-actions@github.com"])
+subprocess.run(["git", "add", "streamlit/xgb_final_model.json", "streamlit/scaler.json"])
+subprocess.run(["git", "commit", "-m", "🔄 Auto retrained model via GitHub Actions"])
+subprocess.run(["git", "push"])
