@@ -144,7 +144,7 @@ def load_model():
 
     '''
     #Loading the model
-    xgb_model_path= f"xgb_final_model.json"
+    xgb_model_path= f"streamlit/xgb_final_model.json"
     xgb_model = XGBRegressor()
     xgb_model.load_model(xgb_model_path)
     return xgb_model
@@ -164,7 +164,7 @@ def regression(model_input,xgb_model):
   
 
     #Loading the scaler
-    scaler=joblib.load("scaler.gz")
+    scaler=joblib.load("streamlit/scaler.gz")
 
     #Scaling the data
     X_data=model_input[["Cases_lag3","Cases_lag4","Cases_lag5","Cases_lag6","Cases_lag7","Cases_lag8"]]
