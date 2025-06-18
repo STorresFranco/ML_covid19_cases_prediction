@@ -9,77 +9,43 @@ import scipy
 from sklearn.metrics import root_mean_squared_error,r2_score
 from sklearn.preprocessing import MinMaxScaler
 import joblib
+import io
 
 def data_cases_update(h_covid_data):
     '''
-    Description:
-        Function that updates historical positive cases (h_covid_data) using an API request from source data and if the date is not duplicated
-    Inputs
-        h_covid_data (Dataframe): Contains historical COVID-19 data that is to be updated    
-    Outputs:
-        h_covid_data (Dataframe): Updated dataframe
+    Updates historical COVID-19 data by appending new rows from latest CSV hosted on GitHub.
     '''
-    curr_date=date.today()
-    day_data=curr_date.day      #Check current day for data update
-    month_data=curr_date.month
-    year_data=curr_date.year
-    new_record=True             #Control variable to check for data existence
-
-    while new_record:
-
-        #Request to data source
-        url = "https://raw.githubusercontent.com/STorresFranco/ML_covid19_cases_prediction/main/artifacts/ukhsa-chart-download.csv"
-        response=requests.get(url)
-
-        #Checking for validity on request
-        if response.status_code==200:
-            try:
-                data = response.json()
-                print("Covid data request successful with status", response.status_code)
-            except ValueError:
-                print("❌ Response was not JSON! Here's what we got:")
-                print(response.text)
-                break
-        else:
-            print("Covid data request failed with status ",response.status_code)
-            break
-        #checking for data existnce
-        if len(data["results"])>0: #Case data exist take new values          
-            curr_date=pd.Timestamp(curr_date)          
-  
-            if curr_date in h_covid_data.Date.values: #Validate if data is up to date. In case it is end
-                 h_covid_data.sort_values(by="Date",axis="index",inplace=True) #Ensure data is sorted
-                 h_covid_data.reset_index(drop=True,inplace=True)
-                 print(f"Historical data range for Covid-19 positive cases from {h_covid_data.Date.min()} to {h_covid_data.Date.max()}")
-                 break                              
-  
-            else:                                   
-                print(f"New record added to covid data for date {curr_date}")
-                results=data["results"][0]
-                new_data=pd.DataFrame({     #Dataframe to concat new info
-                        "Year":[pd.to_datetime(results["date"]).year],
-                        "Month":[pd.to_datetime(results["date"]).month],
-                        "Day":[pd.to_datetime(results["date"]).day],
-                        "Date":[pd.to_datetime(results["date"],format="ISO8601")],
-                        "Cases":[results["metric_value"]],
+    # Download new CSV from GitHub
+    url = "https://raw.githubusercontent.com/STorresFranco/ML_covid19_cases_prediction/main/artifacts/ukhsa-chart-download.csv"
+    response = requests.get(url)
+    if response.status_code == 200:
+        try:
+            df_new = pd.read_csv(io.StringIO(response.text))
+            df_new["Date"] = pd.to_datetime(df_new["date"], format="ISO8601")
+            # Filter new dates not in h_covid_data
+            new_rows = df_new[~df_new["Date"].isin(h_covid_data["Date"])]
+            if new_rows.empty:
+                print("✅ No new records to add.")
+            else:
+                print(f"🆕 {len(new_rows)} new records added.")
+                h_covid_data = pd.concat([
+                    h_covid_data,
+                    pd.DataFrame({
+                        "Year": new_rows["Date"].dt.year,
+                        "Month": new_rows["Date"].dt.month,
+                        "Day": new_rows["Date"].dt.day,
+                        "Date": new_rows["Date"],
+                        "Cases": new_rows["metric_value"]
                     })
-                h_covid_data=pd.concat([h_covid_data,new_data],axis="index",ignore_index=True)
- 
-                h_covid_data.Date=pd.to_datetime(h_covid_data.Date) #Ensuring format consistency
-                h_covid_data.drop_duplicates(ignore_index=True,inplace=True)
-                
-                curr_date=curr_date-timedelta(1) #Move to next date 
-                day_data=curr_date.day           
-                month_data=curr_date.month
-                year_data=curr_date.year                
+                ], ignore_index=True)
 
-        else:
-                curr_date=curr_date-timedelta(1) #Take a previous date
-                day_data=curr_date.day           #Check current day for data update
-                month_data=curr_date.month
-                year_data=curr_date.year
-
-
+                h_covid_data.drop_duplicates(subset="Date", inplace=True)
+                h_covid_data.sort_values("Date", inplace=True)
+                h_covid_data.reset_index(drop=True, inplace=True)
+        except Exception as e:
+            print("❌ Failed to parse CSV from response:", str(e))
+    else:
+        print("❌ Failed to fetch data. Status:", response.status_code)
     return h_covid_data
 
 def data_concatenation():
