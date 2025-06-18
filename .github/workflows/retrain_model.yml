@@ -2,7 +2,7 @@ name: Retrain COVID Model
 
 on:
   schedule:
-    - cron: '0 23 * * 1'  # Every Monday at 23:00 UTC
+    - cron: '0 23 */14 * *' # Every Monday at 23:00 UTC
   workflow_dispatch:       # Allows manual triggering
 
 jobs:
