@@ -87,7 +87,7 @@ def data_concatenation():
         h_covid_data (Dataframe): Dataframe used as input data to retrain the XGB model 
     '''
     # Reading raw data
-    url="https://raw.githubusercontent.com/STorresFranco/ML_covid19_cases_prediction/main/ukhsa-chart-download.csv" #Path to covid data file on Github
+    url="https://raw.githubusercontent.com/STorresFranco/ML_covid19_cases_prediction/main/artifacts/ukhsa-chart-download.csv" #Path to covid data file on Github
     raw_covid_data=pd.read_csv(url)
 
     #Creating dataframe to store results
