@@ -28,7 +28,7 @@ def data_cases_update(h_covid_data):
     while new_record:
 
         #Request to data source
-        url=f"https://api.ukhsa-dashboard.data.gov.uk/themes/infectious_disease/sub_themes/respiratory/topics/COVID-19/geography_types/Nation/geographies/England/metrics/COVID-19_cases_casesByDay?date={year_data}-{month_data}-{day_data}"
+        url = "https://raw.githubusercontent.com/STorresFranco/ML_covid19_cases_prediction/main/artifacts/ukhsa-chart-download.csv"
         response=requests.get(url)
 
         #Checking for validity on request
