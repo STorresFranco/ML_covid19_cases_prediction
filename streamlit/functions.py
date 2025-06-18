@@ -120,9 +120,12 @@ def feature_compute(h_covid_data):
          
     '''
     model_input=h_covid_data.copy()
-    lags=[3,5,6,7] # Considered lags
-    for i in lags: # Lagged data for covid
-    
+
+    # Aggregated data for covid
+    model_input["Cases_Agg"]=model_input.Cases.rolling(window=7).sum()
+
+    # Lagged data for covid
+    for i in range(3,9): 
         model_input[f"Cases_lag{i}"]=model_input[["Cases"]].shift(i).values
     
     model_input.dropna(inplace=True)
@@ -164,7 +167,7 @@ def regression(model_input,xgb_model):
     scaler=joblib.load("scaler.gz")
 
     #Scaling the data
-    X_data=model_input[["Cases_lag3","Cases_lag5","Cases_lag6","Cases_lag7"]]
+    X_data=model_input[["Cases_lag3","Cases_lag4","Cases_lag5","Cases_lag6","Cases_lag7","Cases_lag8"]]
     X_data=scaler.transform(X_data)
 
     #Prediction for next 7 days
