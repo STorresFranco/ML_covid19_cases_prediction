@@ -168,7 +168,7 @@ def train_model(h_covid_data):
     scaler=MinMaxScaler()
     X_train_scaled=scaler.fit_transform(X_train)
     X_test_scaled=scaler.transform(X_test)
-    joblib.dump(scaler, 'scaler.json') #Dumping the scaler after data update
+    joblib.dump(scaler, 'streamlit/scaler.gz') #Dumping the scaler after data update
 
     #Fit the model
     xgb_model=XGBRegressor()
@@ -190,7 +190,7 @@ def train_model(h_covid_data):
     if r2_test < 0.60: #Case the model performance drop below an output 
         raise ValueError(f"🚨 R² too low: {r2_test:.3f}. Model not saved.")
     else:
-        xgb_model.save_model('xgb_final_model.json') #Saving the final model
+        xgb_model.save_model('streamlit/xgb_final_model.json') #Saving the final model
 
 
     return train_rmse,r2_train,test_rmse,r2_test,xgb_model
