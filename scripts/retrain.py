@@ -32,7 +32,7 @@ def data_cases_update(h_covid_data):
         response=requests.get(url)
 
         #Checking for validity on request
-        if response.status_code==200: #Data importation succesful
+        if response.status_code==200:
             try:
                 data = response.json()
                 print("Covid data request successful with status", response.status_code)
