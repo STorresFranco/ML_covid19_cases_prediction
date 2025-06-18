@@ -33,11 +33,16 @@ def data_cases_update(h_covid_data):
 
         #Checking for validity on request
         if response.status_code==200: #Data importation succesful
-            data=response.json()
-            print("Covid data request succesful with status", response.status_code)
+           try:
+                data = response.json()
+                print("Covid data request successful with status", response.status_code)
+            except ValueError:
+                print("❌ Response was not JSON! Here's what we got:")
+                print(response.text)
+                break
         else:
             print("Covid data request failed with status ",response.status_code)
-
+            break
         #checking for data existnce
         if len(data["results"])>0: #Case data exist take new values          
             curr_date=pd.Timestamp(curr_date)          
