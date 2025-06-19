@@ -52,7 +52,7 @@ st.markdown("""
     **Disclaimers**: 
     - The implemented model was trained using data from 2024-04-01 to 2025-06-04.            
     - Covid data updates from the API has some days of lag versus current date (Sorry, don't blame it on me 😄 )                      
-    - The model is re   trained monthly using Jenkins
+    - The model is re   trained monthly using Github Actions
             """
     )
 st.markdown("---")
