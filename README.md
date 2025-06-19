@@ -8,7 +8,7 @@ In this project, I develop a model capable of forecasting aggregated COVID-19 ca
 
 ## 📊 Prototype
 
-The prototyping phase involved collecting one year of historical daily data (from April 2024 to May 2025) from public sources:
+The prototyping phase involved collecting one year of historical daily data (from April 2024 to June 2025) from public sources:
 
 * **COVID-19 Data:** Positive case counts
 * **Weather Data:** Minimum, mean, and maximum temperature, accumulated precipitation, snowfall, and max wind speed
