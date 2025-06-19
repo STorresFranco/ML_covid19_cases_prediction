@@ -44,7 +44,7 @@ st.markdown("## 🧬 COVID-19 Cases Forecasting App")
 # Context section
 st.markdown("""
             ***
-    This project is an XGB model that predicts the aggregated COVID-19 positive cases in a 7 day window after a last available record
+    This project is an XGB model that predicts the aggregated COVID-19 positive cases in a 7 day window in England after a last available record
     The data is obtained via public API https://api.ukhsa-dashboard.data.gov.uk
     - **Input**:  Updated COVID-19 positive cases data from API
     - **Output**: Aggregated COVID-19 Cases forcast for a 7 day window from last available covid information in the API               
