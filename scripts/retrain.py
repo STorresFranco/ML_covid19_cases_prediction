@@ -25,9 +25,9 @@ def data_cases_update(h_covid_data):
             # Filter new dates not in h_covid_data
             new_rows = df_new[~df_new["Date"].isin(h_covid_data["Date"])]
             if new_rows.empty:
-                print("✅ No new records to add.")
+                print("We are up to date: No new records to add.")
             else:
-                print(f"🆕 {len(new_rows)} new records added.")
+                print(f"New data: {len(new_rows)} new records added.")
                 h_covid_data = pd.concat([
                     h_covid_data,
                     pd.DataFrame({
@@ -43,9 +43,9 @@ def data_cases_update(h_covid_data):
                 h_covid_data.sort_values("Date", inplace=True)
                 h_covid_data.reset_index(drop=True, inplace=True)
         except Exception as e:
-            print("❌ Failed to parse CSV from response:", str(e))
+            print("Failed response: Failed to parse CSV from response:", str(e))
     else:
-        print("❌ Failed to fetch data. Status:", response.status_code)
+        print("Failed fetch: Failed to fetch data. Status:", response.status_code)
     return h_covid_data
 
 def data_concatenation():
@@ -159,7 +159,7 @@ def train_model(h_covid_data):
     r2_test=r2_score(y_test,test_pred)
 
     if r2_test < 0.60: #Case the model performance drop below an output 
-        raise ValueError(f"🚨 R² too low: {r2_test:.3f}. Model not saved.")
+        raise ValueError(f"Warning!!!: R² too low: {r2_test:.3f}. Model not saved.")
     else:
         xgb_model.save_model('streamlit/xgb_final_model.json') #Saving the final model
 
@@ -173,7 +173,7 @@ if __name__=="__main__":
     model_input=agg_lagged_cases(h_covid_data)
     train_rmse,r2_train,test_rmse,r2_test,xgb_model=train_model(model_input)
 
-    print(f"✅ Retraining complete")
+    print(f"Succes!!: Retraining complete")
     print(f"Train RMSE: {train_rmse:.2f} | R²: {r2_train:.3f}")
     print(f"Test  RMSE: {test_rmse:.2f} | R²: {r2_test:.3f}")
 
