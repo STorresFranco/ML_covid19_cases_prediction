@@ -32,7 +32,7 @@ def covid_cases_data():
         "Date":[],
         "Cases":[],
     })
-    url="https://raw.githubusercontent.com/STorresFranco/ML_covid19_cases_prediction/main/artifacts/ukhsa-chart-download.csv" #Path to covid data file on Github
+    url="https://raw.githubusercontent.com/STorresFranco/ML_covid19_cases_prediction/main/streamlit/ukhsa-chart-download.csv" #Path to covid data file on Github
     raw_covid_data=pd.read_csv(url)
 
     h_covid_data["Date"]=pd.to_datetime(raw_covid_data["date"],format="ISO8601")
