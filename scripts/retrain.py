@@ -158,7 +158,7 @@ def train_model(h_covid_data):
     test_rmse=root_mean_squared_error(y_test,test_pred)
     r2_test=r2_score(y_test,test_pred)
 
-    if r2_test < 0.60: #Case the model performance drop below an output 
+    if r2_test < 0.70: #Case the model performance drop below an output 
         raise ValueError(f"Warning!!!: R² too low: {r2_test:.3f}. Model not saved.")
     else:
         xgb_model.save_model('streamlit/xgb_final_model.json') #Saving the final model
