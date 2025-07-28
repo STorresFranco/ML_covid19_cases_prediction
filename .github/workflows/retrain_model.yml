@@ -2,41 +2,42 @@ name: Retrain COVID Model
 
 on:
   schedule:
-    - cron: '0 23 */14 * *' # Every Monday at 23:00 UTC
-  workflow_dispatch:       # Allows manual triggering
+    - cron: '0 23 */14 * *'   # Runs every 14 days at 23:00 UTC
+  workflow_dispatch:          # Also allows manual retraining
 
 jobs:
   retrain:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: 📥 Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: 🐍 Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: |
           pip install -r requirements.txt
 
-      - name: Run training script
+      - name: 🧠 Run training script
         run: |
           python scripts/retrain.py
 
-      - name: Commit and push model
+      - name: 💾 Commit and push model
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-    
+
           git add streamlit/xgb_final_model.json streamlit/scaler.gz
           git commit -m "🔁 Auto-retrained model and scaler" || echo "No changes to commit"
-    
-          # Pull first to prevent push rejection
+
+          # ⚠️ Pull with rebase to avoid push rejection due to diverging history
           git pull --rebase origin main
-      
+
+          # ✅ Now safe to push
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
