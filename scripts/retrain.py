@@ -16,7 +16,7 @@ def data_cases_update(h_covid_data):
     Updates historical COVID-19 data by appending new rows from latest CSV hosted on GitHub.
     '''
     # Download new CSV from GitHub
-    url = "https://raw.githubusercontent.com/STorresFranco/ML_covid19_cases_prediction/main/artifacts/ukhsa-chart-download.csv"
+    url = "https://raw.githubusercontent.com/STorresFranco/ML_covid19_cases_prediction/main/src/ukhsa-chart-download.csv"
     response = requests.get(url)
     if response.status_code == 200:
         try:
@@ -58,7 +58,7 @@ def data_concatenation():
         h_covid_data (Dataframe): Dataframe used as input data to retrain the XGB model 
     '''
     # Reading raw data
-    url="https://raw.githubusercontent.com/STorresFranco/ML_covid19_cases_prediction/main/artifacts/ukhsa-chart-download.csv" #Path to covid data file on Github
+    url="https://raw.githubusercontent.com/STorresFranco/ML_covid19_cases_prediction/main/src/ukhsa-chart-download.csv" #Path to covid data file on Github
     raw_covid_data=pd.read_csv(url)
 
     #Creating dataframe to store results
