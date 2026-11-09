@@ -4,6 +4,12 @@
 
 In this project, I develop a model capable of forecasting aggregated COVID-19 cases over a 7-day window using real data from public APIs. The data includes daily positive COVID-19 case counts in England and meteorological information from a specific location in the country. Throughout the project, I explored the potential relationship between COVID-19 cases and meteorological variables to improve model performance. The acceptance criterion for the model was an R² score above 0.7.
 
+
+Acess the live app via this link:
+https://mlcovid19casesprediction-rzciuw5xsfgbmgtqpayb3j.streamlit.app/
+
+Note: If the project is down, let me know, and I will wake it up as Soon as possible. This happens because the frontend is hosted in streamlit cloud.
+
 ---
 
 ## 📊 Prototype
